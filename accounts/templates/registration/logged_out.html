@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Logged Out{% endblock %}
+{% block mystyles %}
+<style>
+</style>
+{% endblock %}
+{% block content %}
+<div class="jumbotron-fluid mt-5">
+    <div class="container">
+        <h2 class="display-4">Logged Out</h2>
+        <p class="">
+            You are successfully logged out. You can login back <a href="{% url 'accounts:login' %}" class="text-success font-weight-bold">Here.</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
