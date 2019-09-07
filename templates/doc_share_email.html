@@ -1,6 +1,8 @@
 {% load i18n %}
 {% autoescape off %}
     <div class="jumbotron jumbotron-fluid">
-        <a href="{{ doc.f.url }}" download>{{ doc.f.name }}</a>
+        <div class="row justify-content-center">
+            <a href="http://{{ domain }}{{ doc.f.url }}" download class="btn btn-success btn-lg">{{ doc.f.name }}</a>
+        </div>
     </div>
 {% endautoescape %}

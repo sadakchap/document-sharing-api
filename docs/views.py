@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
+from django.contrib.sites.shortcuts import get_current_site
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
-from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from django.core.mail import send_mail, EmailMultiAlternatives
 
 from .models import Doc
 from .forms import EmailPostForm
@@ -51,13 +52,23 @@ def delete_doc(request, pk):
 def share_doc(request, pk):
     form = EmailPostForm(request.POST or None)
     doc = get_object_or_404(Doc, pk=pk)
-    if form.is_valid():     
+    if form.is_valid():
+        
+        current_site = get_current_site(request)
         if request.user == doc.user:
-            sub = f'{request.user.email} shared a document with you'
-            msg = render_to_string('doc_share_email.html',{
-                'doc': doc
+            name = form.cleaned_data.get('name')
+            sub = f'{name} shared a document with you'
+            html_content = render_to_string('doc_share_email.html',{
+                'doc': doc,
+                'domain': current_site.domain
             })
-            send_mail(sub, msg, settings.EMAIL_HOST_USER, [form.cleaned_data.get('to')])
+            comment = form.cleaned_data.get('comment')
+            from_email = form.cleaned_data.get('email')
+            to_email = form.cleaned_data.get('to')
+            msg = f'{name} shared a document with you.\n\n {name} comments are {comment}.\n\n You can back at {from_email}'
+            msg = EmailMultiAlternatives(sub, msg, settings.EMAIL_HOST_USER, [to_email])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
             return redirect('/')
 
     return render(request, 'docs/share.html', {'form': form})
