@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="container mt-5">
+        <div class="row" style="justify-content: center; align-items: center;">
+            <div class="col-lg-6">
+                <div class="content-section">
+                    <h1 class="display-4 pb-2" style="border-bottom: 1px solid #989947;">Register Here.</h1>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <input type="hidden" name="next" value="{{ next }}">
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-info">Sign Up</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
