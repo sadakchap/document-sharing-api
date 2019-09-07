@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Add Documents{% endblock %}
+{% block mystyles %}
+<style>
+    .asteriskField{
+        display: none;
+    }
+</style>
+{% endblock %}
+{% block content %}
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h2 class="display-4">
+                Add your Docs here.
+            </h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ formset.as_table }}
+                <div class="form-group text-right">
+                    <button type="submit" class="btn btn-primary">Add Files</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

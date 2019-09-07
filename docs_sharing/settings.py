@@ -10,6 +10,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
+    'docs.apps.DocsConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',

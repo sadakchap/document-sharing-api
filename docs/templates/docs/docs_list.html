@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Add Documents{% endblock %}
+{% block mystyles %}
+<style>
+    
+</style>
+{% endblock %}
+{% block content %}
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h2 class="display-4">
+            My Documents.
+        </h2>
+        <ul>
+            {% for d in docs %}
+                <li>{{ d.f.name}} <div class="links float-right d-inline">
+                    <a href="{% url 'docs:delete' pk=d.pk %}" class="text-danger">Delete</a>
+                    <a href="{% url 'docs:share' pk=d.pk %}" class="text-success">Share</a>
+                </div></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
